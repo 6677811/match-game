@@ -1,13 +1,10 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const svgToMiniDataURI = require('mini-svg-data-uri');
-const path = require('path');
-
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+var svgToMiniDataURI = require('mini-svg-data-uri');
+var path = require('path');
 module.exports = {
     mode: 'development',
-
     entry: './src/index.ts',
-
     module: {
         rules: [
             {
@@ -46,8 +43,9 @@ module.exports = {
                     {
                         loader: 'url-loader',
                         options: {
-                            generator: (content) =>
-                                svgToMiniDataURI(content.toString()),
+                            generator: function (content) {
+                                return svgToMiniDataURI(content.toString());
+                            },
                         },
                     },
                 ],
@@ -76,16 +74,13 @@ module.exports = {
             },
         ],
     },
-
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
-
     output: {
-        filename: 'index.js',
+        filename: 'index.ts',
         path: path.resolve(__dirname, 'dist'),
     },
-
     plugins: [
         new HtmlWebpackPlugin({
             template: 'public/index.html',
@@ -94,7 +89,6 @@ module.exports = {
             filename: 'main-[hash:8].css',
         }),
     ],
-
     devServer: {
         open: true,
         port: 9002,
