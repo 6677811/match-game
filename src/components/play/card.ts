@@ -1,5 +1,5 @@
 export default class Card {
-    IMAGES_URL: string = '../../src/assets/images/categories/';
+    IMAGES_URL: string = 'src/assets/images/categories/';
 
     constructor(public category: number, public type: number) {
         this.category = category;

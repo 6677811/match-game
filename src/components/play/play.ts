@@ -38,6 +38,22 @@ export default class Play {
 
     TIME_OVER_MS = 300500;
 
+    startRotate = () => {
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach((card) => {
+            card.classList.add('card--rotate');
+        });
+    };
+
+    endRotate = () => {
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach((card) => {
+            card.classList.remove('card--rotate');
+        });
+    };
+
     start = (): void => {
         const playGroundElement: HTMLElement = document.body.querySelector('.playground');
         const elementTimer: HTMLElement = document.body.querySelector('.timer__label');
@@ -47,6 +63,8 @@ export default class Play {
 
         this.playground.start();
         this.timer.start();
+        this.startRotate();
+        setTimeout(this.endRotate, 3000);
         this.scheduleTimeOver();
         playGroundElement.addEventListener('click', this.clickHandler);
         window.addEventListener('hashchange', this.destroy);
@@ -93,19 +111,31 @@ export default class Play {
 
     handleTwoOpenedCards = (cardElement: HTMLElement): void => {
         if (this.prevCardElement.dataset.type === cardElement.dataset.type) {
+            this.removeBorder();
             this.prevCardElement.classList.add('card--hidden');
             cardElement.classList.add('card--hidden');
             this.prevCardElement = null;
             this.foundCardsCounter += 2;
             this.checkIsGameOver();
         } else {
+            this.prevCardElement.querySelector('.card__back').classList.add('red-border');
+            cardElement.querySelector('.card__back').classList.add('red-border');
             this.isRotateInProcess = true;
             this.backRotateTimerId = setTimeout(() => {
                 this.rotateBack(this.prevCardElement, cardElement);
                 this.prevCardElement = null;
                 this.isRotateInProcess = false;
             }, 500);
+            setTimeout(this.removeBorder, 3000);
         }
+    };
+
+    removeBorder = () => {
+        const cards = document.querySelectorAll('.red-border');
+
+        cards.forEach((card) => {
+            card.classList.remove('red-border');
+        });
     };
 
     rotateBack = (

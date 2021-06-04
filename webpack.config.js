@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
 const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: 'development',
@@ -92,6 +93,14 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'main-[hash:8].css',
+        }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: 'src',
+                    to: 'src'
+                },
+            ],
         }),
     ],
 
